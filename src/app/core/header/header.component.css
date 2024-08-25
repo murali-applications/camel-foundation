@@ -1,0 +1,16 @@
+.navbar {
+    overflow: unset;
+}
+
+.navbar-mobile ul {
+    bottom: unset;
+    left: unset;
+    width: 346px;
+    top: 46px;
+}
+
+.navbar-mobile .mobile-nav-toggle {
+    position: absolute;
+    right: 15px;
+    top: 0px;
+}

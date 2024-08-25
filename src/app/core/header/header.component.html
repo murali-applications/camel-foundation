@@ -1,0 +1,34 @@
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex justify-content-between">
+
+        <div class="logo">
+            <h1>
+                <a href="#" title="Camel Foundation">
+                    <img class="main-logo" src="assets/img/Camel-Foundation-Logo.png" alt="Camel Foundation">
+                </a>
+            </h1>
+        </div>
+        <!-- .navbar -->
+        <nav id="navbar" class="navbar {{toggle? 'navbar-mobile': ''}}">
+            <ul>
+                <li><a class="nav-link scrollto active" routerLink="home" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+                <li class="dropdown"><a class="nav-link scrollto " routerLink="about-us" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">About Us</a>
+                    <!-- <ul>
+                        <li><a href="#">Message from the board</a></li>
+                    </ul> -->
+                </li>
+                <li><a class="nav-link scrollto " routerLink="our-causes" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Our Causes</a></li>
+                <li><a class="nav-link scrollto " routerLink="gallery" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Gallery</a></li>
+                <li><a class="nav-link scrollto " routerLink="contact-us" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Contact Us</a></li>
+            </ul>
+
+            <i (click)="menuToggle()" class="bi  {{toggle? 'mobile-nav-toggle bi-x': 'bi-list mobile-nav-toggle'}}"></i>
+        </nav><!--  End navbar -->
+    </div>
+</header><!-- End Header -->
