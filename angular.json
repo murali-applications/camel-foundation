@@ -28,12 +28,22 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/vendor/animate/animate.min.css",
+              "src/assets/vendor/bootstrap/css/bootstrap.min.css",
+              "src/assets/vendor/bootstrap-icons/bootstrap-icons.css",
+              "src/assets/vendor/boxicons/css/boxicons.min.css",
+              "src/assets/vendor/glightbox/css/glightbox.min.css",
+              "src/assets/vendor/swiper/swiper-bundle.min.css",
               "src/styles.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "public/assets/js/custom_main.js"
+              "src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/assets/vendor/swiper/swiper-bundle.min.js",
+              "src/assets/vendor/isotope-layout/isotope.pkgd.min.js",
+              "src/assets/vendor/glightbox/js/glightbox.min.js",
+              "src/assets/js/custom_main.js"
             ]
           },
           "configurations": {
@@ -41,13 +51,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "4MB",
+                  "maximumError": "4MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4MB",
+                  "maximumError": "4MB"
                 }
               ],
               "outputHashing": "all"
@@ -55,7 +65,13 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

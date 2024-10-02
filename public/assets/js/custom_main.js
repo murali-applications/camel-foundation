@@ -222,10 +222,10 @@
    */
   setTimeout(function () {
     const swiper = new Swiper('.testimonials-slider', {
-      speed: 600,
+      speed: 2000,
       loop: true,
       autoplay: {
-        delay: 5000,
+        delay: 2000,
         disableOnInteraction: false
       },
       slidesPerView: 'auto',

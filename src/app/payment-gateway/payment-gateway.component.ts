@@ -33,13 +33,47 @@ export class PaymentGatewayComponent {
   private readonly plutoService = inject(PlutoService);
   readonly stripe = injectStripe(STRIPE_PUBLIC_KEY);
 
+  priceItem = [
+    { value: 25, name: "£ 25" },
+    { value: 50, name: "£ 50" },
+    { value: 100, name: "£ 100" },
+    { value: 0, name: "Other" }
+  ];
+
+  activeIndex: number = 0; // Index of the active item
+
+  setActive(index: number): void {
+    this.activeIndex = index;
+    if (this.priceItem.length - 1 === index) {
+      this.customPrice = true;
+    } else {
+      this.customPrice = false;
+    }
+  }
+
+  customPrice: boolean = false;
+
+  donation: any = [
+    { value: 'Zakaath', name: "Zakaath" },
+    { value: 'Non-Zakaath', name: "Non Zakaath ( Sadaqah / Lillah )" },
+  ];
+
+  causeList: any = [
+    { value: '1', name: "To CFT" },
+    { value: '2', name: "Institution" },
+    { value: '3', name: "Sponsor" },
+  ];
+
   checkoutForm = this.fb.group({
-    name: ['Ricardo', [Validators.required]],
-    email: ['support@ngx-stripe.dev', [Validators.required]],
-    address: ['Av. Ramon Nieto 313B 2D', [Validators.required]],
-    zipcode: ['36205', [Validators.required]],
-    city: ['Vigo', [Validators.required]],
-    amount: [2500, [Validators.required, Validators.pattern(/\d+/)]],
+    name: ['', [Validators.required]],
+    email: ['', [Validators.required]],
+    Cause: ['', [Validators.required]],
+    donationType: ['', [Validators.required]],
+    recurringPayemnt: [true, [Validators.required]],
+    address: ['',],
+    zipcode: ['',],
+    city: ['',],
+    amount: [1000, [Validators.required, Validators.pattern(/\d+/)]],
   });
 
   elementsOptions: StripeElementsOptions = {
@@ -55,14 +89,16 @@ export class PaymentGatewayComponent {
 
   paying = signal(false);
 
-  get amount() {
-    const amountValue = this.checkoutForm.get('amount')?.value;
-    if (!amountValue || amountValue < 0) return 0;
-
-    return Number(amountValue) / 100;
-  }
 
   ngOnInit() {
+
+
+  }
+
+  loadPaymentForm() {
+    if (this.checkoutForm.invalid) {
+      return;
+    }
     const amount = this.checkoutForm.get('amount')?.value;
 
     this.plutoService
@@ -75,14 +111,30 @@ export class PaymentGatewayComponent {
       });
   }
 
+  get name() {
+    return this.checkoutForm.get('name');
+  }
+
+  get email() {
+    return this.checkoutForm.get('email');
+  }
+
+  get amount() {
+    return this.checkoutForm.get('amount');
+  }
+
+  get Cause() {
+    return this.checkoutForm.get('Cause');
+  }
+
+  get donationType() {
+    return this.checkoutForm.get('donationType');
+  }
+
+
+
   clear() {
-    this.checkoutForm.patchValue({
-      name: '',
-      email: '',
-      address: '',
-      zipcode: '',
-      city: '',
-    });
+    this.checkoutForm.reset();
   }
 
   collectPayment() {
