@@ -1,118 +1,103 @@
 <div class="about-area area-padding">
     <div class="container">
-        <div class="row card">
-            <div class="col-lg-12">
-                <div class="form contact-form" [formGroup]="checkoutForm">
-                    <h2 class="text-center">Donate to Camel Foundation</h2>
-
-                    <!-- Name Field -->
-                    <div class="form-group">
-                        <input type="text" name="name" formControlName="name" class="form-control" id="name"
-                            placeholder="Name" required="">
-
-                        @if(name?.invalid && (name?.dirty || name?.touched)){
-                        <div class="invalid-feedback">
-                            @if(name?.errors?.['required']){
-                            <div>Name is required.</div>
-                            }
-                        </div>
-                        }
+        <div class="row ">
+            <div class="col-lg-12 d-flex  justify-content-center">
+                <div class="form contact-form w-30" [formGroup]="checkoutForm">
+                    <h3 class="mt-5">Donate to Camel Foundation</h3>
+                    <br />
+                    <div>
+                        <p>I am raising funds for a/an <b>{{Cause?.value?.name}} </b> cause</p>
                     </div>
-
-                    <!-- Email Field -->
                     <div class="form-group mt-3">
-                        <input type="email" class="form-control" formControlName="email" name="email" id="email"
-                            placeholder="Email" required="">
-
-                        @if(email?.invalid && (email?.dirty || email?.touched)){
-                        <div class="invalid-feedback">
-                            @if(email?.errors?.['required']){
-                            <div>Email is required.</div>
+                        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="Cause">
+                            @for (item of causeList; track item.name;let i = $index;let lastIndex = $last) {
+                            <mat-button-toggle [value]="item"> {{ item.name }}</mat-button-toggle>
                             }
-                            @if(email?.errors?.['email']){
-                            <div>Email is required.</div>
-                            }
-                        </div>
-                        }
+                        </mat-button-toggle-group>
                     </div>
 
+                    <br />
+                    <div>
+                        <p> Donation Type is <b>{{donationType?.value?.name}} </b></p>
+                    </div>
                     <!-- Price Items -->
                     <div class="form-group mt-3">
-                        <ul class="list-group list-group-horizontal">
-                            @for (item of priceItem; track item.name;let i = $index;let lastIndex = $last) {
-                            <li class="list-group-item" [class.active]="activeIndex === i" (click)="setActive(i)">
-                                {{ item.name }} <br />
-                                @if(!lastIndex){
-                                <span>GPB</span>
-                                }
-                            </li>
+                        <mat-button-toggle-group formControlName="donationType" name="fontStyle"
+                            aria-label="Font Style">
+                            @for (item of donation; track item.name;let i = $index;let lastIndex = $last) {
+                            <mat-button-toggle [value]="item"> {{ item.name}}</mat-button-toggle>
                             }
-                        </ul>
+                        </mat-button-toggle-group>
+                    </div>
+
+                    <br />
+                    <!-- Price Items -->
+                    <div class="form-group mt-3">
+                        <mat-button-toggle-group [value]="25" formControlName="price" name="fontStyle"
+                            aria-label="Font Style">
+                            @for (item of priceItem; track item.name;let i = $index;let lastIndex = $last) {
+                            <mat-button-toggle value="item.value" (click)="setActive(i)"> {{ item.name
+                                }}</mat-button-toggle>
+                            }
+                        </mat-button-toggle-group>
                     </div>
 
                     @if(customPrice){
+                    <br />
+
                     <!-- Custom Price -->
-                    <div class="form-group mt-3">
-                        <div class="input-group">
-                            <span class="input-group-text">£</span>
-                            <input type="text" formControlName="amount" class="form-control" placeholder="Enter amount">
-                            <span class="input-group-text">GPB</span>
-
-                        </div>
-                    </div>
+                    <mat-form-field appearance="outline" class="form-group mt-3">
+                        <mat-label>Amount</mat-label>
+                        <input type="number" matInput formControlName="amount" placeholder="Enter amount">
+                        <span matTextPrefix>£ &nbsp;</span>
+                        <span matTextSuffix>GPB</span>
+                    </mat-form-field>
                     }
+                    <br />
 
-                    <!-- Cause Select -->
-                    <div class="form-group mt-3">
-                        <label for="cause">Cause</label>
-                        <select class="form-select" formControlName="Cause">
-                            <!-- Loop through causes -->
-                            @for (item of causeList; track item.name;let i = $index;let lastIndex = $last) {
-                            <option [value]="item.value">{{ item .name }}
-                            </option>
-                            }
-                        </select>
-                        @if(Cause?.invalid && (Cause?.dirty || Cause?.touched)){
-                        <div class="invalid-feedback">
-                            @if(Cause?.errors?.['required']){
-                            <div>Please select a cause.</div>
-                            }
-                        </div>
-                        }
+                    <!-- Name Field -->
+                    <mat-form-field appearance="outline" class="full-width mt-3">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name" required>
+                        <mat-error *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+                            <span *ngIf="name?.errors?.['required']">Name is required.</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <br />
 
-                    </div>
+                    <!-- Email Field -->
+                    <mat-form-field appearance="outline" class="full-width mt-3">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" required>
+                        <mat-error *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+                            <span *ngIf="email?.errors?.['required']">Email is required.</span>
+                            <span *ngIf="email?.errors?.['email']">Invalid email format.</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <br />
 
-                    <!-- Donation Type Select -->
-                    <div class="form-group mt-3">
-                        <label for="donationType">Donation Type</label>
-                        <select class="form-select" formControlName="donationType">
-                            <!-- Loop through donation types -->
-                            @for (item of donation; track item.name;let i = $index;let lastIndex = $last) {
-                            <option [value]="item.value">{{ item .name }}
-                            </option>
-                            }
+                    <!-- Mobile Number Field -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mobile Number</mat-label>
+                        <input matInput formControlName="mobileNumber" type="tel" placeholder="Enter mobile number"
+                            required>
+                        <mat-error *ngIf="mobileNumber?.invalid && (mobileNumber?.dirty || mobileNumber?.touched)">
+                            <span *ngIf="mobileNumber?.errors?.['required']"> Mobile number is required.</span>
+                            <span *ngIf="mobileNumber?.errors?.['pattern']"> Please enter a valid 10-digit mobile
+                                number.</span>
+                        </mat-error>
 
-                        </select>
-                        @if(donationType?.invalid && (donationType?.dirty || donationType?.touched)){
-                        <div class="invalid-feedback">
-                            @if(donationType?.errors?.['required']){
-                            <div>Please select a donation type.</div>
-                            }
-                        </div>
-                        }
-                    </div>
+                    </mat-form-field>
+                    <br />
+
 
                     <!-- Recurring Payment Checkbox -->
                     <div class="form-group mt-3">
-                        <div class="form-check">
-                            <input class="form-check-input" formControlName="recurringPayemnt" type="checkbox"
-                                id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Make this a monthly donation
-                            </label>
-                        </div>
+                        <mat-checkbox formControlName="recurringPayemnt" id="flexCheckDefault">
+                            Make this a monthly donation
+                        </mat-checkbox>
                     </div>
-
+                    <br />
                     <!-- Stripe Payment -->
                     @if (elementsOptions.clientSecret) {
                     <div class="form-group mt-3">
@@ -125,9 +110,9 @@
                     <!-- Submit Buttons -->
                     <div style="margin-bottom: 20px;"></div>
                     <div style="text-align: center;">
-                        <button class="btn btn-info" (click)="clear()" style="margin-right: 16px">CLEAR</button>
-                        <button class="btn btn-info" [disabled]="paying()" (click)="loadPaymentForm()">
-                            Pay
+                        <button mat-flat-button color="warn" (click)="clear()" style="margin-right: 16px">Clear</button>
+                        <button mat-flat-button color="primary" [disabled]="paying()" (click)="loadPaymentForm()">
+                            Continue
                         </button>
                     </div>
                 </div>

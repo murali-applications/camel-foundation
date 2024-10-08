@@ -11,6 +11,8 @@ import {
   StripePaymentElementOptions
 } from '@stripe/stripe-js';
 import { PlutoService, STRIPE_PUBLIC_KEY } from './pluto.service';
+import { MaterialModule } from '../material.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 @Component({
@@ -20,7 +22,8 @@ import { PlutoService, STRIPE_PUBLIC_KEY } from './pluto.service';
     NgxStripeModule,
     ReactiveFormsModule,
     StripeElementsDirective,
-    StripePaymentElementComponent
+    StripePaymentElementComponent,
+    SharedModule
   ],
   templateUrl: './payment-gateway.component.html',
   styleUrl: './payment-gateway.component.css'
@@ -67,12 +70,14 @@ export class PaymentGatewayComponent {
   checkoutForm = this.fb.group({
     name: ['', [Validators.required]],
     email: ['', [Validators.required]],
-    Cause: ['', [Validators.required]],
-    donationType: ['', [Validators.required]],
+    mobileNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+    Cause: [this.causeList[0], [Validators.required]],
+    donationType: [this.donation[0], [Validators.required]],
     recurringPayemnt: [true, [Validators.required]],
     address: ['',],
     zipcode: ['',],
     city: ['',],
+    price: [25],
     amount: [1000, [Validators.required, Validators.pattern(/\d+/)]],
   });
 
@@ -129,6 +134,10 @@ export class PaymentGatewayComponent {
 
   get donationType() {
     return this.checkoutForm.get('donationType');
+  }
+
+  get mobileNumber() {
+    return this.checkoutForm.get('mobileNumber');
   }
 
 
